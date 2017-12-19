@@ -2,17 +2,31 @@ const rest = new Rest();
 
 $(document).ready(function() {
 	$("#modal").show();
-	window.setTimeout(function() {
-		//FIXME trocar este dummy por uma chamada para o login (ver se está logado)
-		$(".content").css("visibility", "visible");
-		$("#signin-container .login").focus();
-		$("#modal").hide();
-	}, 3000);
 	
 	bindActions();
-	
 	updateRequiredFieldPlaceholder();
+	
+	rest.post("login/check_logged")
+		.then(function(response) {
+			if (isRestError(response) || !response.data) {
+				stayHere();
+			}
+			else {
+				goToOrdersPage();
+			}
+		})
+		.catch(stayHere);
 });
+
+function stayHere() {
+	$(".content").css("visibility", "visible");
+	$("#signin-container .login").focus();
+	$("#modal").hide();
+}
+
+function goToOrdersPage() {
+	window.location = "./orders.html";
+}
 
 function bindActions() {
 	$("#action-open-signup").on("click", showSignup);
@@ -186,7 +200,7 @@ function signin() {
 		.then(response => {
 			if (isRestError(response, $("#signin-container .msg"))) return;
 			
-			window.location = "./profile.html";
+			goToOrdersPage();
 		});
 }
 

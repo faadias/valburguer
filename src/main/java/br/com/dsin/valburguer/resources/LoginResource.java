@@ -1,17 +1,14 @@
 package br.com.dsin.valburguer.resources;
 
-import java.net.URI;
 import java.sql.SQLException;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -114,7 +111,7 @@ public class LoginResource {
 				return response;
 			}
 			
-			request.getSession().setAttribute("USERSESSIONID", id);
+			request.getSession().setAttribute(BaseDAO.USER_SESSION_ATTR_KEY, id);
 		} catch(SQLException e) {
 			e.printStackTrace();
 			response.setCode(resid);
@@ -124,19 +121,21 @@ public class LoginResource {
 		return response;
 	}
 	
-	@GET
-	@Path("/redirect")
-	@Produces("text/html")
-	public Response checkLogged() {
-		String sessionId = (String) request.getSession().getAttribute("USERSSESIONID");
+	@POST
+	@Path("/check_logged")
+	@Produces("application/json")
+	public ResourceResponse checkLogged() {
+		ResourceResponse response = new ResourceResponse();
+		
+		String sessionId = (String) request.getSession().getAttribute(BaseDAO.USER_SESSION_ATTR_KEY);
 		try {
-			if (loginDAO.checkValidSessionId(sessionId)) {
-				return Response.temporaryRedirect(URI.create(request.getContextPath()+"/html/profile.html")).build();
-			}
+			response.setData(loginDAO.checkValidSessionId(sessionId));
 		} catch (SQLException e) {
 			e.printStackTrace();
+			response.setCode(resid);
+			response.setMsg(BaseDAO.DEFAULT_DB_ERROR_MSG);
 		}
 		
-		return Response.temporaryRedirect(URI.create(request.getContextPath()+"/html/login.html")).build();
+		return response;
 	}
 }

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import br.com.dsin.valburguer.dao.BaseDAO;
+
 public class AuthFilter implements Filter {
 
 	@Override
@@ -32,13 +34,13 @@ public class AuthFilter implements Filter {
 		}
 		else {
 			HttpSession session = req.getSession(false);
-			String sessionId = session != null ? (String) session.getAttribute("USERSESSIONID") : null;
+			String sessionId = session != null ? (String) session.getAttribute(BaseDAO.USER_SESSION_ATTR_KEY) : null;
 			
 			if (sessionId != null && !"".equals(sessionId)) {
 				chain.doFilter(request, response);
 			}
 			else {
-				res.sendRedirect(req.getContextPath()+"/html/login.html");
+				res.sendRedirect(req.getContextPath());
 			}
 		}
 	}

@@ -9,6 +9,7 @@ import org.apache.commons.dbutils.QueryRunner;
 
 public class BaseDAO {
 	
+	public final static String USER_SESSION_ATTR_KEY = "USERSESSIONID";
 	public final static String DEFAULT_DB_ERROR_MSG="Um erro ocorreu durante o processamente da solicitação. Por favor, tente novamente. Se o problema persistir, contate o administrador do sistema.";
 	private final static BasicDataSource ds;
 	protected final static QueryRunner runner;
