@@ -14,14 +14,15 @@
 <script src="../js/login.js"></script>
 </head>
 <body
-><div class="content state-loading">
+><div id="modal"></div
+><div class="content">
 	<header></header>
 	
 	<section>
 		<div id="signin-container" class="container">
 			<div class="form">
 				<div class="msg"></div>
-				<input class="login field" type="text" placeholder="Nome de usuário" autofocus />
+				<input class="login field" type="text" placeholder="Nome de usuário" />
 				<input class="password field" type="password" placeholder="Senha" />
 			</div>
 			<div class="actions">
@@ -33,11 +34,12 @@
 		<div id="signup-container" class="container">
 			<div class="form">
 				<div class="msg"></div>
-				<input class="login field" type="text" placeholder="Nome de usuário" required />
+				<input class="login field" type="text" placeholder="Nome de usuário" maxlength="20" required />
+				<input class="name field" type="text" placeholder="Nome completo" maxlength="120" required />
 				<input class="password field" type="password" placeholder="Senha" required />
 				<input class="password-confirm field" type="password" placeholder="Confirmar senha" required />
 				<input class="phone field" type="tel" placeholder="Telefone" required />
-				<input class="password field" type="email" placeholder="Email" />
+				<input class="email field" type="email" placeholder="Email" maxlength="45" />
 			</div>
 			<div class="actions">
 				<button id="action-signup" class="action">Enviar</button>

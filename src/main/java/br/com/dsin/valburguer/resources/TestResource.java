@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import br.com.dsin.valburguer.dao.TestDAO;
 
 @Path("/test")
-public class TestService {
+public class TestResource {
 
 	@POST
 	@Path("/sum")

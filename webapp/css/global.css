@@ -23,14 +23,18 @@ body
 	transform: scale(.95);
 }
 
-.state-loading {
-	background: none !important;
-}
-.state-loading > * {
-	display: none !important;
+#modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(255,255,255,.9);
+	z-index: 999999;
 }
 
-.state-loading::before {
+#modal::before {
 	content: "";
 	display: inline-block;
 	width: 100%;

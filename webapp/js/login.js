@@ -1,9 +1,12 @@
 const rest = new Rest();
 
 $(document).ready(function() {
+	$("#modal").show();
 	window.setTimeout(function() {
 		//FIXME trocar este dummy por uma chamada para o login (ver se está logado)
-		$(".content").removeClass("state-loading");
+		$(".content").css("visibility", "visible");
+		$("#signin-container .login").focus();
+		$("#modal").hide();
 	}, 3000);
 	
 	bindActions();
@@ -24,8 +27,10 @@ function bindActions() {
 		}
 	});
 	
+	$("#signup-container :required").on("blur", clearRequiredFieldStyleWhenInformed);
+	
 	$("#signup-container .password").on("blur", checkPasswordsMatch);
-	$("#signup-container .password-retype").on("blur", checkPasswordsMatch);
+	$("#signup-container .password-confirm").on("blur", checkPasswordsMatch);
 	
 	$("#signup-container .email").on("blur", checkValidEmail);
 	$("#signup-container .phone").on("blur", checkValidPhone);
@@ -45,6 +50,7 @@ function showSignup() {
 function showSignin() {
 	$("#signup-container").hide();
 	$("#signin-container").show();
+	$("#signin-container .login").focus();
 }
 
 function updateRequiredFieldPlaceholder() {
@@ -56,16 +62,24 @@ function updateRequiredFieldPlaceholder() {
 	});
 }
 
-function checkRequiredFields() {
+function clearRequiredFieldStyleWhenInformed() {
+	let value = $(this).val().trim();
+	if (value !== "") {
+		$(this).removeClass("invalid");
+	}
+}
+
+function checkAllRequiredFields() {
 	let allValid = true;
-	$("#signup-container .msg").html("");
 	
 	$(":required").each(function(i, input) {
-		$(input).removeClass("invalid");
 		let value = $(input).val().trim();
 		if (value === "") {
-			allValid = false;
 			$(input).addClass("invalid");
+			allValid = false;
+		}
+		else {
+			$(input).removeClass("invalid");
 		}
 	});
 	
@@ -79,6 +93,10 @@ function checkRequiredFields() {
 function checkPasswordsMatch() {
 	let password = $("#signup-container .password").val();
 	let passwordConfirm = $("#signup-container .password-confirm").val();
+	
+	if (password === "" && passwordConfirm === "") {
+		return false;
+	}
 	
 	if (password !== passwordConfirm) {
 		$("#signup-container .password-confirm").addClass("invalid");
@@ -112,7 +130,11 @@ function checkValidEmail() {
 
 function checkValidPhone() {
 	let phone = $("#signup-container .phone").val().replace(/[^0-9]/g,"");
-
+	
+	if (phone.length === 0) {
+		return false;
+	}
+	
 	let isValid = phone.length === 10 || phone.length === 11;
 	
 	if (isValid) {
@@ -120,7 +142,7 @@ function checkValidPhone() {
 		$("#signup-container .msg").html("");
 	}
 	else {
-		$("#signup-container .email").addClass("invalid");
+		$("#signup-container .phone").addClass("invalid");
 		$("#signup-container .msg").html("O telefone digitado não é válido!");
 	}
 	
@@ -128,25 +150,26 @@ function checkValidPhone() {
 }
 
 function signup() {
-	if ( !(checkRequiredFields() && checkPasswordsMatch() && checkValidPhone() && checkValidEmail()) ) return;
+	if ( !(checkAllRequiredFields() && checkPasswordsMatch() && checkValidPhone() && checkValidEmail()) ) return;
 	
-	$("#signup-container").addClass("state-loading");
+	$("#modal").show();
 	
 	let login = $("#signup-container .login").val().trim();
+	let name = $("#signup-container .name").val().trim();
 	let password = $("#signup-container .password").val();
-	let email = $("#signup-container .email").val().trim() || null;
+	let email = $("#signup-container .email").val().trim();
 	let phone = $("#signup-container .phone").val().replace(/[^0-9]/g,"");
 	
 	rest
-		.post("login/signup", {login,password,email,phone})
+		.post("login/signup", {login,name,password,email,phone})
 		.then(response => {
-			$("#signup-container").removeClass("state-loading");
+			$("#modal").hide();
 			
 			if (isRestError(response, $("#signup-container .msg"))) return;
 			
-			$("#signup-container .msg").html(response.msg);
-			$("#signup-container .login").val(response.data);
-			showSignup();
+			$("#signin-container .msg").html(response.msg);
+			$("#signin-container .login").val(response.data);
+			showSignin();
 		});
 }
 
@@ -156,18 +179,20 @@ function signin() {
 	
 	if (login.trim() === "" || password.trim() === "") return;
 	
+	$("#modal").show();
+	
 	rest
 		.post("login/signin", {login,password})
 		.then(response => {
 			if (isRestError(response, $("#signin-container .msg"))) return;
 			
-			//TODO implementar
+			window.location = "./profile.html";
 		});
 }
 
 function isRestError(response, $errorElement) {
 	if (response.code !== 0) {
-		if ($errorElement) $errorElement.html(response.msg);
+		if ($errorElement) $errorElement.html(`${response.msg} (Cód. ${response.code})`);
 		return true;
 	}
 	

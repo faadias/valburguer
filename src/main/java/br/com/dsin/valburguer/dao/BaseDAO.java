@@ -8,7 +8,8 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 
 public class BaseDAO {
-
+	
+	public final static String DEFAULT_DB_ERROR_MSG="Um erro ocorreu durante o processamente da solicitação. Por favor, tente novamente. Se o problema persistir, contate o administrador do sistema.";
 	private final static BasicDataSource ds;
 	protected final static QueryRunner runner;
 	
@@ -26,6 +27,7 @@ public class BaseDAO {
 			ds.setPassword(props.getProperty("pwd"));
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.println("Não foi possível inicializar o conector do banco de dados!");
 		}
 	}
 }

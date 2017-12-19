@@ -3,31 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Valburguer</title>
-
-<script src="js/jquery.min.js"></script>
-<script src="js/rest.js"></script>
+<script>window.location = "html/login.html"</script>
 </head>
-
 <body>
-	<h3>REST que soma os números:</h3>
-	<label>a:</label> <input id="a" type="number" value="14">
-	<br>
-	<label>b:</label> <input id="b" type="number" value="5">
-	<br>
-	<button id="cmdSomar">Somar</button>
-	<div id="resp"></div>
-	<script>
-	document.getElementById("cmdSomar").addEventListener("click", function(e){
-		let a = parseInt(document.getElementById("a").value, 10);
-		let b = parseInt(document.getElementById("b").value, 10);
-		let data = {a,b};
-		
-		let rest = new Rest();
-		rest.post("test/sum", data).then(response => {
-			console.log(response);
-			document.getElementById("resp").textContent = `${a}+${b}=${response.data}`;
-		});
-	});
-	</script>
 </body>
 </html>

@@ -4,6 +4,6 @@ class Rest {
 	}
 	
 	post(service, params) {
-		return $.post(this.url+service, params);
+		return $.post(this.url+service, params).catch(() => $("#modal").hide());
 	}
 }
