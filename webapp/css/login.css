@@ -1,0 +1,55 @@
+.content {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	
+	width: 100vw;
+	height: 100vh;
+}
+
+.content.loading > * {
+	display: none !important;
+}
+
+.content.loading::before {
+	content: "";
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	background-image: url(../imgs/ajax-loader.gif);
+	background-repeat: no-repeat;
+	background-position: center 36vh;
+}
+
+#signup-container {
+	display: none;
+}
+
+#signin-container .field {
+	display: block;
+	border-radius: 10px;
+    height: 25px;
+    border: 1px solid lightgray;
+    padding: 4px 8px;
+    margin-bottom: 4px;
+    outline: none;
+}
+
+.field:focus {
+	box-shadow: inset 0px 0px 4px 0px blue;
+}
+
+.container {
+	padding: 16vmin;
+	border-radius: 8vmin;
+	background: linear-gradient(to bottom left, whitesmoke, lightgray);
+	margin: 10px;
+}
+
+.container .actions {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+}
