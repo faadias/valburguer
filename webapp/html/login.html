@@ -2,34 +2,55 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Valburguer</title>
 
 <link rel="stylesheet" href="../css/global.css">
 <link rel="stylesheet" href="../css/login.css">
 
-<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery/jquery.min.js"></script>
+<script src="../js/jquery/jquery.mask.min.js"></script>
 <script src="../js/rest.js"></script>
 <script src="../js/login.js"></script>
 </head>
-<body>
-<div class="content loading">
-	<div id="signin-container" class="container">
-		<div class="form">
-			<input class="login field" type="text" placeholder="Usuário" />
-			<input class="password field" type="password" placeholder="Senha" />
-		</div>
-		<div class="actions">
-			<button id="action-signin">Entrar</button>
-			<button id="action-open-signup">Novo aqui?</button>
-		</div>
-	</div>
+<body
+><div class="content state-loading">
+	<header></header>
 	
-	<div id="signup-container" class="container">
-		<div class="form">
+	<section>
+		<div id="signin-container" class="container">
+			<div class="form">
+				<div class="msg"></div>
+				<input class="login field" type="text" placeholder="Nome de usuário" autofocus />
+				<input class="password field" type="password" placeholder="Senha" />
+			</div>
+			<div class="actions">
+				<button id="action-signin" class="action">Entrar</button>
+				<button id="action-open-signup" class="action">Cadastre-se</button>
+			</div>
 		</div>
-		<div class="actions">
+		
+		<div id="signup-container" class="container">
+			<div class="form">
+				<div class="msg"></div>
+				<input class="login field" type="text" placeholder="Nome de usuário" required />
+				<input class="password field" type="password" placeholder="Senha" required />
+				<input class="password-confirm field" type="password" placeholder="Confirmar senha" required />
+				<input class="phone field" type="tel" placeholder="Telefone" required />
+				<input class="password field" type="email" placeholder="Email" />
+			</div>
+			<div class="actions">
+				<button id="action-signup" class="action">Enviar</button>
+				<button id="action-open-signin" class="action">Voltar</button>
+			</div>
 		</div>
-	</div>
-</div>
+	</section>
+	
+	<footer>
+		<div>Rua Ari Neves Baluarte, 148</div>
+		<div>Tel.: (14) 3232-1111 / (14) 95555-1212</div>
+		<div>Ter-Dom 18h-22h</div>
+	</footer
+></div>
 </body>
 </html>
