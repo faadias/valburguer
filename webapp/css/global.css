@@ -9,6 +9,19 @@ body
 	font-family: verdana, sans-serif;
 }
 
+.content {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	
+	width: 100vw;
+	height: 100vh;
+	
+	visibility: hidden;
+}
+
 .action {
 	padding: 6px 10px;
 	border-radius: 4px;
@@ -19,6 +32,14 @@ body
 	cursor: pointer;
 }
 
+.symbol-action {
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	cursor: pointer;
+}
+
+.symbol-action:active,
 .action:active {
 	transform: scale(.95);
 }

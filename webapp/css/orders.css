@@ -1,0 +1,64 @@
+.content {
+	padding: 10px 16px 30px 16px;
+	background-color: wheat;
+}
+
+.content > * {
+	width: 100%;
+	max-width: 600px;
+}
+
+header {
+	height: 15vh;
+	max-height: 48px;
+    min-height: 32px;
+	background-image: url(../imgs/logo.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	flex-shrink: 1;
+	opacity: .75;
+	margin-bottom: 2%;
+	
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+header > #action-config {
+	width: 32px;
+	height: 32px;
+	background-image: url(../imgs/gear.png);
+}
+
+footer {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	font-size: 1.4em;
+}
+
+footer > #action-cart {
+	width: 48px;
+	height: 48px;
+	background-image: url(../imgs/cart.png);
+}
+
+footer > #cart-total-price {
+	margin-right: 8px;
+}
+
+footer > #cart-total-price:not(:empty)::before {
+	content: "R$ ";
+}
+
+section {
+	flex-grow: 1;
+}
+
+#msg {
+	font-size: .8em;
+	color: darkred;
+}
