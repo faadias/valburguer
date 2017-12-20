@@ -16,11 +16,19 @@ $(document).ready(function() {
 
 function bindActions() {
 	$("#action-config").on("click", openSettings);
+	
+	$("nav > input").on("change", openSection);
 }
 
 function openSettings() {
 	//TODO
 	alert("Settings não implementado!");
+}
+
+function openSection() {
+	let sectionId = $("nav > input:checked").attr("id").replace("nav-","");
+	$("main > article > section").hide();
+	$("#"+sectionId).show();
 }
 
 function handleCategories(response) {
@@ -39,7 +47,7 @@ function handleCategories(response) {
 			
 			return $categorySection;
 		})
-		.forEach($categorySection => $("#options-list").append($categorySection));
+		.forEach($categorySection => $("#menu-list").append($categorySection));
 }
 
 function handleProducts(response) {
@@ -66,6 +74,7 @@ function initScreen() {
 		$(`#category-${product.category_id} > .products-list`).append($item);
 	});
 	
+	openSection();
 	$("main").css("visibility", "visible");
 	$("#modal").hide();
 }

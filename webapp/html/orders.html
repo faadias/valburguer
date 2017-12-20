@@ -19,13 +19,22 @@
 <main>
 	<article>
 		<header><div id="action-config" class="symbol-action"></div></header>
-		<section id="options-list" class="container"></section>
+		<nav>
+			<input id="nav-menu-list" type="radio" name="nav" checked />
+			<label for="nav-menu-list">Menu</label>
+			<input id="nav-order-history" type="radio" name="nav" />
+			<label for="nav-order-history">Histórico</label>
+		</nav>
+		<section id="menu-list" class="container"></section>
+		<section id="order-history" class="container"></section>
 		<section id="product-detail" class="container"></section>
 		<section id="checkout-list" class="container"></section>
-		<aside id="msg"></aside>
 		<footer>
-			<div id="cart-total-price"></div>
-			<div id="action-cart" class="symbol-action"></div>
+			<div id="msg"></div>
+			<div id="cart">
+				<div id="action-cart" class="symbol-action"></div>
+				<div id="cart-total-price">R$ 0,00</div>
+			</div>
 		</footer>
 	</article>
 </main>
