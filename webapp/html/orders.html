@@ -18,6 +18,10 @@
 <div id="overlay"></div>
 <main>
 	<article id="main">
+		<div id="cart">
+			<div id="action-cart" class="symbol-action disabled"></div>
+			<div id="cart-total-price">R$0,00</div>
+		</div>
 		<header><div class="symbol-action action-config"></div></header>
 		<nav>
 			<input id="nav-menu-list" type="radio" name="nav" checked />
@@ -29,10 +33,6 @@
 		<section id="order-history" class="container"></section>
 		<footer>
 			<div id="msg"></div>
-			<div id="cart">
-				<div id="action-cart" class="symbol-action"></div>
-				<div id="cart-total-price">R$0,00</div>
-			</div>
 		</footer>
 	</article>
 	
@@ -43,15 +43,16 @@
 			<div class="product-pic"></div>
 			<label class="product-name"></label>
 			<label class="product-description"></label>
-			<div class="order-quantity">
+			<div class="product-quantity">
 				<label>Preço unitário: <span class="product-price"></span></label>
 				<div class="quantity-controller">
 					<span class="action-minus symbol-action"></span>
-					<label class="quantity">1</label>
+					<input type="text" class="quantity" value="1" />
 					<span class="action-plus symbol-action"></span>
 				</div>
 			</div>
-			<textarea class="order-obs" placeholder="Observações"></textarea>
+			<div>Total: <span class="product-total-price"></span></div>
+			<textarea class="product-obs" placeholder="Observações (até 140 caracteres)" maxlength="140"></textarea>
 		</section>
 		<footer><div class="modal-action">Adicionar ao carrinho</div></footer>
 	</article>

@@ -39,8 +39,8 @@ body
 	cursor: pointer;
 }
 
-.symbol-action:active,
-.action:active {
+.symbol-action:not(.disabled):active,
+.action:not(.disabled):active {
 	transform: scale(.95);
 }
 
