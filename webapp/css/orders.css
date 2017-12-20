@@ -16,9 +16,9 @@ header {
 	background-position: left center;
 	background-repeat: no-repeat;
 	background-size: contain;
-	flex-shrink: 1;
+	flex-shrink: 0;
 	opacity: .75;
-	margin-bottom: 2%;
+	margin-bottom: 8px;
 	
 	display: flex;
 	flex-direction: row;
@@ -38,6 +38,8 @@ footer {
 	justify-content: flex-end;
 	align-items: center;
 	font-size: 1.4em;
+	flex-shrink: 0;
+	margin-top: 8px;
 }
 
 footer > #action-cart {
@@ -50,15 +52,76 @@ footer > #cart-total-price {
 	margin-right: 8px;
 }
 
-footer > #cart-total-price:not(:empty)::before {
-	content: "R$ ";
-}
-
 section {
 	flex-grow: 1;
+	overflow-y: auto;
+}
+
+section > :not(:first-child) {
+	display: none;
 }
 
 #msg {
 	font-size: .8em;
 	color: darkred;
 }
+
+#products-list {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+}
+
+#products-list > .category-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+	padding: 8px 10px;
+}
+
+#products-list > .category-container:not(:last-child) {
+	border-bottom: 1px solid darkred;
+}
+
+#products-list > .category-container > .category-name {
+	display: block;
+	font-size: .85em;
+	font-weight: bold;
+	margin-bottom: .2em;
+}
+
+.product-item {
+	display: flex;
+	flex-direction: row;
+	justify-content: stretch;
+	padding-left: 8px;
+}
+
+.products-list :not(:last-child) {
+	margin-bottom: 4px;
+}
+
+.product-item > .product-info {
+	flex-grow: 1;
+}
+
+.product-info > .product-name {
+	display: block;
+	font-size: .85em;
+	margin-bottom: .2em;
+	text-decoration: underline;
+}
+
+.product-info > .product-description {
+	display: block;
+	font-size: .8em;
+}
+
+.product-info > .product-price {
+	display: block;
+	font-size: .8em;
+}
+	
+	
