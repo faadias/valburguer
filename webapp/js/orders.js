@@ -103,6 +103,7 @@ function changeQuantity(e) {
 	
 	let storedData = JSON.parse(localStorage.getItem(id));
 	if (quantity <= 0 && storedData && confirm("Deseja remover este produto do carrinho?")) {
+		localStorage.removeItem(id);
 		updateCart(-storedData.quantity*storedData.price);
 		closeModal();
 		return;
