@@ -6,6 +6,7 @@
 <title>Valburguer</title>
 
 <link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/default.css">
 <link rel="stylesheet" href="../css/orders.css">
 
 <script src="../js/jquery/jquery.min.js"></script>
@@ -13,25 +14,20 @@
 <script src="../js/rest.js"></script>
 <script src="../js/orders.js"></script>
 </head>
-<body
-><div id="modal"></div
-><div class="content">
-	<header>
-		<div id="action-config" class="symbol-action"></div>
-	</header>
-	
-	<section>
-		<div id="products-list" class="container"></div>
-		<div id="product-detail" class="container"></div>
-		<div id="checkout-list" class="container"></div>
-	</section>
-	
-	<div id="msg"></div>
-	
-	<footer>
-		<div id="cart-total-price"></div>
-		<div id="action-cart" class="symbol-action"></div>
-	</footer
-></div>
+<body>
+<div id="modal"></div>
+<main>
+	<article>
+		<header><div id="action-config" class="symbol-action"></div></header>
+		<section id="options-list" class="container"></section>
+		<section id="product-detail" class="container"></section>
+		<section id="checkout-list" class="container"></section>
+		<aside id="msg"></aside>
+		<footer>
+			<div id="cart-total-price"></div>
+			<div id="action-cart" class="symbol-action"></div>
+		</footer>
+	</article>
+</main>
 </body>
 </html>

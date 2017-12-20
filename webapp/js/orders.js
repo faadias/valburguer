@@ -31,15 +31,15 @@ function handleCategories(response) {
 	categories
 		.sort((c1,c2) => c1.list_order - c2.list_order)
 		.map(category => {
-			let div = $("<div>")
-							.addClass("category-container")
+			let $categorySection = $("<div>")
+							.addClass("category-section")
 							.attr("id", `category-${category.id}`);
-			div.append($("<label>").addClass("category-name").html(category.name));
-			div.append($("<div>").addClass("products-list"));
+			$categorySection.append($("<label>").addClass("category-name").html(category.name));
+			$categorySection.append($("<div>").addClass("products-list"));
 			
-			return div;
+			return $categorySection;
 		})
-		.forEach($div => $("#products-list").append($div));
+		.forEach($categorySection => $("#options-list").append($categorySection));
 }
 
 function handleProducts(response) {
@@ -50,14 +50,14 @@ function handleProducts(response) {
 
 function initScreen() {
 	products.forEach(product => {
-		let $item = $("<div>").addClass("product-item");
+		let $item = $("<div>").addClass("product-item").data(product);
 		
-		let $pic = $("<img>").attr("src", product.pic || "../imgs/nopic.png");
+		let $pic = $("<img>").addClass("product-pic").attr("src", product.pic || "../imgs/nopic.png");
 		
 		let $info = $("<div>").addClass("product-info");
 		$info.append($("<label>").addClass("product-name").html(product.name));
+		$info.append($("<label>").addClass("product-price").html(currencyFormatter.format(product.price)));
 		$info.append($("<div>").addClass("product-description").html(product.description));
-		$info.append($("<div>").addClass("product-price").html(currencyFormatter.format(product.price).replace(/R\$/,"R$ ")));
 		
 		$item
 			.append($pic)
@@ -66,7 +66,7 @@ function initScreen() {
 		$(`#category-${product.category_id} > .products-list`).append($item);
 	});
 	
-	$(".content").css("visibility", "visible");
+	$("main").css("visibility", "visible");
 	$("#modal").hide();
 }
 
