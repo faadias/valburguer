@@ -1,10 +1,13 @@
 const rest = new Rest();
 const currencyFormatter = Intl.NumberFormat("pt-br", { style : "currency", currency : "BRL", currencyDisplay : "symbol" });
 
+const MIN_QUANTITY = 1;
+const MAX_QUANTITY = 99;
+
 let products = [];
 
 $(document).ready(function() {
-	$("#modal").show();
+	$("#overlay").show();
 	
 	bindActions();
 	
@@ -15,9 +18,18 @@ $(document).ready(function() {
 });
 
 function bindActions() {
-	$("#action-config").on("click", openSettings);
+	$(".action-config").on("click", openSettings);
 	
 	$("nav > input").on("change", openSection);
+	
+	$("#menu-list").on("click", ".product-item", openProductDetails);
+	
+	$(".action-back").on("click", closeModal);
+	
+	$(".action-minus").on("click", changeQuantity);
+	$(".action-plus").on("click", changeQuantity);
+	
+	$("#product-detail-modal .modal-action").click(addToCart);
 }
 
 function openSettings() {
@@ -27,8 +39,33 @@ function openSettings() {
 
 function openSection() {
 	let sectionId = $("nav > input:checked").attr("id").replace("nav-","");
-	$("main > article > section").hide();
+	$("main > article#main > section").hide();
 	$("#"+sectionId).show();
+}
+
+function openProductDetails(e) {
+	let data = $(e.currentTarget).data();
+	
+	$("#product-detail-modal .product-id").val(data.id);
+	$("#product-detail-modal .product-pic").attr("src", data.pic || "../imgs/nopic.png");
+	$("#product-detail-modal .product-name").html(data.name);
+	$("#product-detail-modal .product-description").html(data.description || "");
+	$("#product-detail-modal .product-price").html(data.price);
+	$("#product-detail-modal .order-obs").val("");
+	
+	$("#product-detail-modal").show();
+}
+
+function closeModal() {
+	$("article.modal").hide();
+}
+
+function changeQuantity(e) {
+	let increment = $(e.target).hasClass("action-minus") ? -1 : 1;
+	let quantity = parseInt($(e.target.parentNode).children(".quantity").html());
+	
+	quantity = Math.min(Math.max(MIN_QUANTITY, quantity+increment), MAX_QUANTITY);
+	$(e.target.parentNode).children(".quantity").html(quantity);
 }
 
 function handleCategories(response) {
@@ -76,7 +113,15 @@ function initScreen() {
 	
 	openSection();
 	$("main").css("visibility", "visible");
-	$("#modal").hide();
+	$("#overlay").hide();
+}
+
+function addToCart() {
+	let id = parseInt($("#product-detail-modal .product-id").val());
+	let quantity = parseInt($("#product-detail-modal .quantity").html());
+	let obs = $("#product-detail-modal .order-obs").val();
+
+	closeModal();
 }
 
 function isRestError(response) {

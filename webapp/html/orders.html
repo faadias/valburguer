@@ -15,10 +15,10 @@
 <script src="../js/orders.js"></script>
 </head>
 <body>
-<div id="modal"></div>
+<div id="overlay"></div>
 <main>
-	<article>
-		<header><div id="action-config" class="symbol-action"></div></header>
+	<article id="main">
+		<header><div class="symbol-action action-config"></div></header>
 		<nav>
 			<input id="nav-menu-list" type="radio" name="nav" checked />
 			<label for="nav-menu-list">Menu</label>
@@ -27,15 +27,39 @@
 		</nav>
 		<section id="menu-list" class="container"></section>
 		<section id="order-history" class="container"></section>
-		<section id="product-detail" class="container"></section>
-		<section id="checkout-list" class="container"></section>
 		<footer>
 			<div id="msg"></div>
 			<div id="cart">
 				<div id="action-cart" class="symbol-action"></div>
-				<div id="cart-total-price">R$ 0,00</div>
+				<div id="cart-total-price">R$0,00</div>
 			</div>
 		</footer>
+	</article>
+	
+	<article id="product-detail-modal" class="modal">
+		<header><div class="symbol-action action-back"></div></header>
+		<section id="product-detail">
+			<input type="hidden" class="product-id" value="" />
+			<div class="product-pic"></div>
+			<label class="product-name"></label>
+			<label class="product-description"></label>
+			<div class="order-quantity">
+				<label>Preço unitário: <span class="product-price"></span></label>
+				<div class="quantity-controller">
+					<span class="action-minus symbol-action"></span>
+					<label class="quantity">1</label>
+					<span class="action-plus symbol-action"></span>
+				</div>
+			</div>
+			<textarea class="order-obs" placeholder="Observações"></textarea>
+		</section>
+		<footer><div class="modal-action">Adicionar ao carrinho</div></footer>
+	</article>
+	
+	<article id="order-checkout-modal" class="modal">
+		<header><div class="symbol-action action-back"></div></header>
+		<section id="order-checkout"></section>
+		<footer><div class="modal-action">Pedir!</div></footer>
 	</article>
 </main>
 </body>

@@ -1,7 +1,7 @@
 const rest = new Rest();
 
 $(document).ready(function() {
-	$("#modal").show();
+	$("#overlay").show();
 	
 	bindActions();
 	updateRequiredFieldPlaceholder();
@@ -21,7 +21,7 @@ $(document).ready(function() {
 function stayHere() {
 	$(".content").css("visibility", "visible");
 	$("#signin-container .login").focus();
-	$("#modal").hide();
+	$("#overlay").hide();
 }
 
 function goToOrdersPage() {
@@ -166,7 +166,7 @@ function checkValidPhone() {
 function signup() {
 	if ( !(checkAllRequiredFields() && checkPasswordsMatch() && checkValidPhone() && checkValidEmail()) ) return;
 	
-	$("#modal").show();
+	$("#overlay").show();
 	
 	let login = $("#signup-container .login").val().trim();
 	let name = $("#signup-container .name").val().trim();
@@ -177,7 +177,7 @@ function signup() {
 	rest
 		.post("login/signup", {login,name,password,email,phone})
 		.then(response => {
-			$("#modal").hide();
+			$("#overlay").hide();
 			
 			if (isRestError(response, $("#signup-container .msg"))) return;
 			
@@ -193,7 +193,7 @@ function signin() {
 	
 	if (login.trim() === "" || password.trim() === "") return;
 	
-	$("#modal").show();
+	$("#overlay").show();
 	
 	rest
 		.post("login/signin", {login,password})

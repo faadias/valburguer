@@ -44,7 +44,7 @@ body
 	transform: scale(.95);
 }
 
-#modal {
+#overlay {
 	display: none;
 	position: fixed;
 	top: 0;
@@ -55,7 +55,7 @@ body
 	z-index: 999999;
 }
 
-#modal::before {
+#overlay::before {
 	content: "";
 	display: inline-block;
 	width: 100%;
@@ -64,3 +64,4 @@ body
 	background-repeat: no-repeat;
 	background-position: center 36%;
 }
+
