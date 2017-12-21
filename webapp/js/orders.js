@@ -14,8 +14,8 @@ $(document).ready(function() {
 		localStorage.clear();
 	}
 	else {
-		localStorage.removeItem("lastActivity");
 		let total = Object.keys(localStorage)
+			.filter(key => /[0-9]+/.test(key))
 			.map(id => {
 				let json = JSON.parse(localStorage.getItem(id));
 				return json.price * json.quantity;
@@ -24,8 +24,6 @@ $(document).ready(function() {
 		
 		updateCart(total);
 	}
-	
-	localStorage.setItem("lastActivity", new Date().getTime());
 	
 	$("#overlay").show();
 	
@@ -46,11 +44,18 @@ function bindActions() {
 	
 	$(".action-back").on("click", closeModal);
 	
-	$("#product-detail-modal").on("click", ".action-minus", changeQuantity);
-	$("#product-detail-modal").on("click", ".action-plus", changeQuantity);
+	$(".action-quantity").on("click", changeQuantity);
 	
 	$("#product-detail-modal").on("click", ".modal-action", addToCart);
-	$("#product-detail-modal").on("change", ".quantity", updateTotalPrice);
+	$("#product-detail-modal").on("change", ".quantity", updateOrderDetail);
+	
+	$("#action-cart").on("click", checkout);
+	
+	$("#order-checkout-modal").on("click", ".action-quantity", changeQuantity);
+	
+	$(".action-clear-cart").on("click", emptyCart);
+	
+	$(".action-place-order").on("click", placeOrder);
 }
 
 function openSettings() {
@@ -58,8 +63,19 @@ function openSettings() {
 	alert("Settings não implementado!");
 }
 
-function updateTotalPrice(e) {
+function updateOrderDetail(e) {
+	let id = parseInt($("#product-detail-modal .product-id").val());
 	let quantity = parseInt(e.target.value);
+	
+	let storedData = JSON.parse(localStorage.getItem(id));
+	if (quantity <= 0 && storedData && confirm("Deseja remover este produto do carrinho?")) {
+		localStorage.removeItem(id);
+		updateCart(-storedData.quantity*storedData.price);
+		closeModal();
+		return;
+	}
+	
+	e.target.value = quantity = Math.min(Math.max(MIN_QUANTITY,quantity), MAX_QUANTITY);
 	let price = currencyToFloat($(e.delegateTarget).find(".product-price").html());
 	$(e.delegateTarget).find(".product-total-price").html(currencyFormatter.format(quantity*price));
 }
@@ -71,6 +87,9 @@ function openSection() {
 }
 
 function openProductDetails(e) {
+	$("#msg").html("");
+	localStorage.setItem("lastActivity", new Date().getTime());
+	
 	let data = $(e.currentTarget).data();
 	
 	let storedData = JSON.parse(localStorage.getItem(data.id)) || {quantity : MIN_QUANTITY, obs : ""};
@@ -96,20 +115,8 @@ function currencyToFloat(currency) {
 }
 
 function changeQuantity(e) {
-	let $context = $(e.delegateTarget);
 	let increment = $(e.target).hasClass("action-minus") ? -1 : 1;
 	let quantity = parseInt($(e.target.parentNode).children(".quantity").val()) + increment;
-	let id = parseInt($context.find(".product-id").val());
-	
-	let storedData = JSON.parse(localStorage.getItem(id));
-	if (quantity <= 0 && storedData && confirm("Deseja remover este produto do carrinho?")) {
-		localStorage.removeItem(id);
-		updateCart(-storedData.quantity*storedData.price);
-		closeModal();
-		return;
-	}
-	
-	quantity = Math.max(Math.min(quantity, MAX_QUANTITY), MIN_QUANTITY);
 	$(e.target.parentNode).children(".quantity").val(quantity).change();
 }
 
@@ -182,11 +189,13 @@ function addToCart() {
 function emptyCart() {
 	localStorage.clear();
 	updateCart(-cartTotal);
+	
+	closeModal();
 }
 
 function updateCart(increment) {
 	cartTotal += increment;
-	$("#cart-total-price").html(currencyFormatter.format(cartTotal));
+	$(".cart-total-price").html(currencyFormatter.format(cartTotal));
 	
 	if (cartTotal === 0) {
 		$("#action-cart").addClass("disabled");
@@ -194,6 +203,85 @@ function updateCart(increment) {
 	else {
 		$("#action-cart").removeClass("disabled");
 	}
+}
+
+function checkout() {
+	if (cartTotal === 0) return;
+	
+	$("#msg").html("");
+	$("#checkout-list").children().remove();
+	
+	let productsMap = new Map();
+	products.forEach(product => productsMap.set(product.id, product));
+	
+	Object.keys(localStorage)
+		.filter(key => /[0-9]+/.test(key))
+		.map(id => parseInt(id))
+		.forEach(id => {
+			let product = productsMap.get(id);
+			let orderData = JSON.parse(localStorage.getItem(id));
+			
+			let $item = $("<div>").addClass("checkout-item");
+			let $totalPrice = $("<div>").addClass("product-total-price").html(currencyFormatter.format(orderData.quantity*product.price));
+			
+			$item.append($("<label>").addClass("product-name").html(product.name));
+			$item.append($totalPrice);
+			$item.append(buildQuantityController(orderData.quantity, function(e) {
+				let quantity = parseInt(e.target.value);
+				if (quantity <= 0 && confirm("Deseja remover este produto do carrinho?")) {
+					$item.remove();
+					
+					localStorage.removeItem(id);
+					updateCart(-orderData.quantity*orderData.price);
+					
+					if (cartTotal === 0) {
+						closeModal();
+						return;
+					}
+				}
+				
+				e.target.value = quantity = Math.min(Math.max(MIN_QUANTITY,quantity), MAX_QUANTITY);
+				$totalPrice.html(currencyFormatter.format(quantity*product.price));
+			}));
+			
+			$("#checkout-list").append($item);
+		});
+	
+	$("#order-checkout-modal").show();
+}
+
+function buildQuantityController(quantity=1, onChangeCallback) {
+	let $controller = $(
+		`<div class="quantity-controller">
+			<span class="action-minus action-quantity symbol-action"></span>
+			<input type="text" class="quantity" value="${quantity}" />
+			<span class="action-plus action-quantity symbol-action"></span>
+		</div>`);
+	
+	$controller.children(".quantity").on("change", onChangeCallback);
+	
+	return $controller;
+}
+
+function placeOrder() {
+	let order = Object.keys(localStorage)
+		.filter(key => /[0-9]+/.test(key))
+		.map(function(id) {
+			let json = JSON.parse(localStorage.getItem(id));
+			return { id : parseInt(id), quantity : json.quantity };
+		});
+	
+	closeModal();
+	$("#overlay").show();
+	rest.post("order/place", JSON.stringify(order), "application/json")
+		.then(response => {
+			$("#overlay").hide();
+			
+			if (isRestError(response)) return;
+			
+			emptyCart();
+			$("#msg").html("Pedido realizado com sucesso!");
+		});
 }
 
 function isRestError(response) {

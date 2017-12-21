@@ -1,14 +1,15 @@
 package br.com.dsin.valburguer.dao;
 
 import java.sql.SQLException;
+import java.util.Date;
 
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 public class LoginDAO extends BaseDAO {
 
-	public void createNewUser(String id, String login, String hashedPassword, String name, String phone, String email) throws SQLException {
-		String sql = "insert into user values (?,?,?,?,?,?)";
-		runner.update(sql, id, login, hashedPassword, name, phone, email);
+	public void createNewUser(String id, String login, String hashedPassword, String name, String phone, String email, Date date) throws SQLException {
+		String sql = "insert into user values (?,?,?,?,?,?,?,?)";
+		runner.execute(sql, id, login, hashedPassword, name, phone, email, null, date);
 	}
 	
 	public boolean checkLoginExists(String login) throws SQLException {

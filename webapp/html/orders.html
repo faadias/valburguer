@@ -20,7 +20,7 @@
 	<article id="main">
 		<div id="cart">
 			<div id="action-cart" class="symbol-action disabled"></div>
-			<div id="cart-total-price">R$0,00</div>
+			<div class="cart-total-price">R$0,00</div>
 		</div>
 		<header><div class="symbol-action action-config"></div></header>
 		<nav>
@@ -46,12 +46,12 @@
 			<div class="product-quantity">
 				<label>Preço unitário: <span class="product-price"></span></label>
 				<div class="quantity-controller">
-					<span class="action-minus symbol-action"></span>
+					<span class="action-minus action-quantity symbol-action"></span>
 					<input type="text" class="quantity" value="1" />
-					<span class="action-plus symbol-action"></span>
+					<span class="action-plus action-quantity symbol-action"></span>
 				</div>
 			</div>
-			<div>Total: <span class="product-total-price"></span></div>
+			<div class="product-total-price"></div>
 			<textarea class="product-obs" placeholder="Observações (até 140 caracteres)" maxlength="140"></textarea>
 		</section>
 		<footer><div class="modal-action">Adicionar ao carrinho</div></footer>
@@ -59,8 +59,11 @@
 	
 	<article id="order-checkout-modal" class="modal">
 		<header><div class="symbol-action action-back"></div></header>
-		<section id="order-checkout"></section>
-		<footer><div class="modal-action">Pedir!</div></footer>
+		<section id="order-checkout">
+			<section id="checkout-list"></section>
+		</section>
+		<div class="cart-total-price">R$0,00</div>
+		<footer><div class="modal-action action-clear-cart">Limpar</div><div class="modal-action action-place-order">Pedir!</div></footer>
 	</article>
 </main>
 </body>

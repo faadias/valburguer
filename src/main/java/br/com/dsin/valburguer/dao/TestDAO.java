@@ -6,9 +6,9 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 public class TestDAO extends BaseDAO {
 
-	public Long getNumberOne() throws SQLException {
-		ScalarHandler<Long> rsh = new ScalarHandler<>(1);
-		Long i = runner.query("select 1", rsh);
+	public Integer getNumberOne() throws SQLException {
+		ScalarHandler<Integer> rsh = new ScalarHandler<>(1);
+		Integer i = runner.query("select 1", rsh);
 		
 		return i;
 	}

@@ -3,7 +3,7 @@ package br.com.dsin.valburguer.beans;
 public class CategoryBean {
 	private String id;
 	private String name;
-	private Long list_order;
+	private Integer list_order;
 	
 	public String getId() {
 		return id;
@@ -17,10 +17,10 @@ public class CategoryBean {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Long getList_order() {
+	public Integer getList_order() {
 		return list_order;
 	}
-	public void setList_order(Long list_order) {
+	public void setList_order(Integer list_order) {
 		this.list_order = list_order;
 	}
 }

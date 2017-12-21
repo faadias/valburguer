@@ -1,6 +1,7 @@
 package br.com.dsin.valburguer.resources;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +54,7 @@ public class LoginResource {
 			
 			String id = UUID.randomUUID().toString();
 			String hashedPassword = DigestUtils.sha256Hex(password);
-			loginDAO.createNewUser(id, login, hashedPassword, name, phone, email);
+			loginDAO.createNewUser(id, login, hashedPassword, name, phone, email, new Date());
 		} catch(SQLException e) {
 			e.printStackTrace();
 			response.setCode(resid);

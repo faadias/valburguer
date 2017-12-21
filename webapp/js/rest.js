@@ -3,7 +3,11 @@ class Rest {
 		this.url = url == null ? window.location.origin + "/valburguer/rest/" : url;
 	}
 	
-	post(service, params) {
-		return $.post(this.url+service, params).catch(() => $("#overlay").hide());
+	post(service, params, contentType="application/x-www-form-urlencoded") {
+		return $.post({
+			url : this.url+service,
+			data : params,
+			contentType : contentType
+		}).catch(() => $("#overlay").hide());
 	}
 }
