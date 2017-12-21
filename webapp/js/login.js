@@ -198,6 +198,8 @@ function signin() {
 	rest
 		.post("login/signin", {login,password})
 		.then(response => {
+			$("#overlay").hide();
+			
 			if (isRestError(response, $("#signin-container .msg"))) return;
 			
 			goToOrdersPage();
