@@ -235,7 +235,7 @@ header > .symbol-action {
 	background-repeat: no-repeat;
 	background-position: center;
 	width: 100%;
-	height: 20%;
+	min-height: 20vh;
 }
 
 #product-detail-modal .product-quantity {
