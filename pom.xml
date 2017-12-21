@@ -13,7 +13,7 @@
   </developers>
   
   <build>
-  	<finalName>${project.artifactId}-${project.version}</finalName>
+  	<finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
