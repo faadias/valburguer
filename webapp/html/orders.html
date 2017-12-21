@@ -18,10 +18,6 @@
 <div id="overlay"></div>
 <main>
 	<article id="main">
-		<div id="cart">
-			<div id="action-cart" class="symbol-action disabled"></div>
-			<div class="cart-total-price">R$0,00</div>
-		</div>
 		<header><div class="symbol-action action-config"></div></header>
 		<nav>
 			<input id="nav-menu-list" type="radio" name="nav" checked />
@@ -29,8 +25,15 @@
 			<input id="nav-order-history" type="radio" name="nav" />
 			<label for="nav-order-history">Histórico</label>
 		</nav>
-		<section id="menu-list" class="container"></section>
-		<section id="order-history" class="container"></section>
+		<section id="menu-list" class="container">
+		<div id="cart">
+			<div id="action-cart" class="symbol-action disabled"></div>
+			<div class="cart-total-price">R$0,00</div>
+		</div>
+		</section>
+		<section id="order-history" class="container">
+			<div id="orders-list"></div>
+		</section>
 		<footer>
 			<div id="msg"></div>
 		</footer>

@@ -80,6 +80,7 @@ public class OrderDAO extends BaseDAO {
 			String payment = (String) row.get("payment");
 			
 			if (lastOrderNumber.intValue() != orderNumber.intValue()) {
+				lastOrderNumber = orderNumber.intValue();
 				orderBean = new OrderBean();
 				orderBean.setId(orderId);
 				orderBean.setTotal_price(totalPrice);

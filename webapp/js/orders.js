@@ -1,5 +1,9 @@
 const rest = new Rest();
 const currencyFormatter = Intl.NumberFormat("pt-br", { style : "currency", currency : "BRL", currencyDisplay : "symbol" });
+const dateFormatter = Intl.DateTimeFormat("pt-br", {
+	year : "numeric", month : "numeric", day : "numeric",
+	hour : "numeric", minute : "numeric", hour12 : false
+})
 
 const MIN_QUANTITY = 1;
 const MAX_QUANTITY = 99;
@@ -41,6 +45,12 @@ $(document).ready(function() {
 			if (response.data != null) {
 				$("delivery-address").val(response.data.trim());
 			}
+		});
+	
+	rest.post("order/list_orders")
+		.then(response => {
+			if (isRestError(response)) return;
+			handleOrders(response.data);
 		});
 });
 
@@ -152,6 +162,36 @@ function handleProducts(response) {
 	if (isRestError(response)) return;
 	
 	products = response.data.sort( (p1,p2) => p1.name.toLowerCase().localeCompare(p2.name.toLowerCase()));
+}
+
+function handleOrders(orders) {
+	console.log(orders);
+	$("#orders-list").html("");
+	
+	orders.forEach(order => {
+		let $orderItem = $("<div>").addClass("orders-list-item");
+		let $orderItemHeader = $("<div>").addClass("order-item-header");
+		$orderItemHeader.append($("<label>").addClass("order-number").html(order.order_number));
+		$orderItemHeader.append($("<label>").addClass("order-status").html(order.status));
+		$orderItemHeader.append($("<label>").addClass("order-date").html(dateFormatter.format(order.created_date)));
+		
+		$orderItem.append($orderItemHeader);
+		
+		let $productsList = $("<div>").addClass("order-products-list");
+		
+		order.products.forEach(product => {
+			let $productItem = $("<div>").addClass("order-product-item");
+			$productItem.append($("<label>").addClass("product-name").html(product.name));
+			$productItem.append($("<label>").addClass("product-quantity").html(product.quantity));
+			
+			$productsList.append($productItem);
+		});
+		
+		$orderItem.append($productsList);
+		$orderItem.append($("<label>").addClass("order-total").html(currencyFormatter.format(order.total_price)));
+		
+		$("#orders-list").append($orderItem);
+	});
 }
 
 function initScreen() {

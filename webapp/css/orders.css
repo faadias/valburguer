@@ -35,8 +35,8 @@ article#main footer > #msg {
 
 #cart {
 	position: absolute;
-	bottom: 10px;
-	right: 15px;
+	bottom: 0;
+	right: 25px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -47,6 +47,8 @@ article#main footer > #msg {
 @media only screen and (max-width: 768px) {
 	#cart { /* Fix for webkit mobile browsers (toolbar) */
 		position: fixed;
+		bottom: 15px;
+		right: 15px;
 	}
 }
 
@@ -318,4 +320,79 @@ textarea {
 	align-items: center;
 	padding: 10px;
 }
-	
+
+.orders-list-item {
+	display: flex;
+	flex-direction: column;
+	justify-content: stretch;
+	align-items: stretch;
+	padding: 10px;
+}
+
+.orders-list-item .order-item-header {
+	display: block;
+}
+
+.order-item-header .order-number {
+	font-size: .9em;
+	font-weight: bold;
+}
+
+.order-item-header .order-status {
+	font-size: .8em;
+	margin-left: 1em;
+}
+.order-item-header .order-status:before {
+	content: "(";
+}
+.order-item-header .order-status::after {
+	content: ")";
+}
+
+.order-item-header .order-date {
+	font-size: .66em;
+	font-weight: normal;
+	font-style: italic;
+	margin-left: 1em;
+}
+
+
+.order-item-header .order-number::before {
+	content: "Pedido #";
+}
+
+.orders-list-item .order-total {
+	font-size: .9em;
+	font-weight: bold;
+}
+.orders-list-item .order-total::before {
+	content: "Total: ";
+}
+
+.orders-list-item .order-products-list {
+	display: flex;
+	flex-direction: column;
+	justify-content: stretch;
+	align-items: stretch;
+	padding: 6px;
+}
+
+.order-products-list .product-quantity {
+	text-align: left;
+}
+
+.order-products-list .product-quantity::before {
+	content: "x";
+}
+
+.order-products-list > .order-product-item {
+	display: flex;
+	flex-direction: row;
+	justify-content: stretch;
+	align-items: center;
+}
+
+.order-product-item > * {
+	width: 100%;
+}
+
