@@ -26,6 +26,8 @@ Este app foi desenvolvido com o Eclipse for JAVA EE Developers Oxygen
 
 ## Configuração
 
+Para rodar o projeto compilado, basta jogar o arquivo <pasta do projeto>/target/valburguer.war na pasta webapps do diretório do Apache Tomcat 8.5 e iniciar o servidor. O tomcar se encarrega de subir o app na URL http://localhost:8080/valburguer/ (atenção para a barra ao final)
+
 Para importar o projeto no Eclipse, primeiramente clone a URL e depois, no Eclipse:
 - Vá até o menu File > Import...
 - Na janela que irá abrir, selecione a opção Existing Maven Projects
