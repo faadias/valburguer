@@ -24,6 +24,12 @@ public class LoginDAO extends BaseDAO {
 		return runner.query(sql, rsh, login, hashedPassword);
 	}
 	
+	public String getAddress(String id) throws SQLException {
+		String sql = "select address from user where id = ?";
+		ScalarHandler<String> rsh = new ScalarHandler<>(1);
+		return runner.query(sql, rsh, id);
+	}
+	
 	public boolean checkValidSessionId(String sessionId) throws SQLException {
 		String sql = "select exists(select 1 from user where id = ?)";
 		ScalarHandler<Long> rsh = new ScalarHandler<>(1);

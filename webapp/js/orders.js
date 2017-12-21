@@ -32,7 +32,16 @@ $(document).ready(function() {
 	Promise.all([
 		rest.post("order/list_categories").then(handleCategories),
 		rest.post("order/list_products").then(handleProducts)
-	]).then(initScreen)
+	]).then(initScreen);
+	
+	rest.post("login/get_address")
+		.then(response => {
+			if (isRestError(response)) return;
+			
+			if (response.data != null) {
+				$("delivery-address").val(response.data.trim());
+			}
+		});
 });
 
 function bindActions() {
@@ -264,12 +273,28 @@ function buildQuantityController(quantity=1, onChangeCallback) {
 }
 
 function placeOrder() {
-	let order = Object.keys(localStorage)
+	if (cartTotal === 0) return;
+	
+	let address = $("#delivery-address").val().trim();
+	if (address === "") {
+		alert("Forneça um endereço de entraga.");
+		return;
+	}
+	
+	let payment = $("#payment-methods input:radio").val().trim();
+	if (payment === "") {
+		alert("Informe a forma de pagamento.");
+		return;
+	}
+	
+	let products = Object.keys(localStorage)
 		.filter(key => /[0-9]+/.test(key))
 		.map(function(id) {
 			let json = JSON.parse(localStorage.getItem(id));
 			return { id : parseInt(id), quantity : json.quantity };
 		});
+	
+	let order = {products, payment, address};
 	
 	closeModal();
 	$("#overlay").show();

@@ -62,6 +62,16 @@
 		<section id="order-checkout">
 			<section id="checkout-list"></section>
 		</section>
+		<section>
+			<textarea id="delivery-address" placeholder="Endereço de entrega" maxlength="200" rows="2" cols="100"></textarea>
+			<div id="payment-methods">
+				<input type="radio" value="CC" name="payment-method" />Cartão de crédito<br>
+				<input type="radio" value="CD" name="payment-method" />Cartão de débito<br>
+				<input type="radio" value="DC" name="payment-method" />Dinheiro ou cheque<br>
+				<input type="radio" value="VO" name="payment-method" />Voucher<br>
+				<input type="radio" value="VR" name="payment-method" />Vale refeição
+			</div>
+		</section>
 		<div class="cart-total-price">R$0,00</div>
 		<footer><div class="modal-action action-clear-cart">Limpar</div><div class="modal-action action-place-order">Pedir!</div></footer>
 	</article>

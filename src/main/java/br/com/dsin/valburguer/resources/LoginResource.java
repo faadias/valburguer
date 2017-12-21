@@ -139,4 +139,22 @@ public class LoginResource {
 		
 		return response;
 	}
+	
+	@POST
+	@Path("/get_address")
+	@Produces("application/json")
+	public ResourceResponse getAddress() {
+		ResourceResponse response = new ResourceResponse();
+		
+		String sessionId = (String) request.getSession().getAttribute(BaseDAO.USER_SESSION_ATTR_KEY);
+		try {
+			response.setData(loginDAO.getAddress(sessionId));
+		} catch (SQLException e) {
+			e.printStackTrace();
+			response.setCode(resid);
+			response.setMsg(BaseDAO.DEFAULT_DB_ERROR_MSG);
+		}
+		
+		return response;
+	}
 }

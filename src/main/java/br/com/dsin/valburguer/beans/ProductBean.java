@@ -7,6 +7,7 @@ public class ProductBean {
 	private Double price;
 	private String category_id;
 	private String pic;
+	private Integer quantity;
 	
 	public Integer getId() {
 		return id;
@@ -43,5 +44,11 @@ public class ProductBean {
 	}
 	public void setPic(String pic) {
 		this.pic = pic;
+	}
+	public Integer getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
 }

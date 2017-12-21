@@ -249,10 +249,23 @@ header > .symbol-action {
 
 #product-detail-modal .product-obs {
 	width: 100%;
-	resize: vertical;
 	font-size: .9em;
 	flex-grow: 1;
 	max-height: 120px;
+}
+
+textarea {
+	resize: vertical;
+}
+
+#delivery-address {
+	width: 100%;
+	font-size: .8em;
+}
+
+#payment-methods > * {
+	font-size: .7em;
+	vertical-align: bottom;
 }
 
 .quantity-controller {

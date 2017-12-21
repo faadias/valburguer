@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
-import br.com.dsin.valburguer.beans.PlaceOrderBean;
+import br.com.dsin.valburguer.beans.OrderBean;
 import br.com.dsin.valburguer.beans.ProductBean;
 import br.com.dsin.valburguer.dao.BaseDAO;
 import br.com.dsin.valburguer.dao.OrderDAO;
@@ -65,14 +66,30 @@ public class OrderResource {
 	@Path("/place")
 	@Produces("application/json")
 	@Consumes("application/json")
-	public ResourceResponse placeOrder(List<PlaceOrderBean> order) {
+	public ResourceResponse placeOrder(OrderBean order) {
 		ResourceResponse response = new ResourceResponse();
 		
-		String id = (String) request.getSession().getAttribute(BaseDAO.USER_SESSION_ATTR_KEY);
+		String userId = (String) request.getSession().getAttribute(BaseDAO.USER_SESSION_ATTR_KEY);
 		
-		if (id == null) {
+		if (userId == null) {
 			response.setCode(resid+1);
 			response.setMsg("É preciso estar logado para fazer um pedido!");
+			return response;
+		}
+		
+		Set<String> validPaymentOptions = orderDAO.getPaymentOptions();
+		
+		if (
+			order == null ||
+			order.getProducts() == null ||
+			order.getProducts().size() == 0 ||
+			order.getAddress() == null ||
+			"".equals(order.getAddress().trim()) ||
+			order.getPayment() == null ||
+			!validPaymentOptions.contains(order.getPayment())
+		) {
+			response.setCode(resid+2);
+			response.setMsg("Não foi possível processar o seu pedido, pois um ou mais dados necessários não foram informados!");
 			return response;
 		}
 		
@@ -84,11 +101,20 @@ public class OrderResource {
 			}
 			
 			Double totalPrice = 0.;
-			for(PlaceOrderBean placeOrder : order) {
-				totalPrice += productPriceMap.get(placeOrder.getId())*placeOrder.getQuantity();
+			for(ProductBean product : order.getProducts()) {
+				totalPrice += productPriceMap.get(product.getId())*product.getQuantity();
 			}
 			
-			orderDAO.placeOrder(id, UUID.randomUUID().toString(), order, totalPrice, new Date());
+			if (order.getId() == null || "".equals(order.getId().trim())) {
+				orderDAO.placeOrder(userId, UUID.randomUUID().toString(), order.getProducts(), totalPrice, new Date(), order.getAddress(), order.getPayment());
+			}
+			else {
+				//TODO
+				//verificar se pedido ainda está com status Realizado para pode ser modificado
+				//atualizar pedido
+			}
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			response.setCode(resid);
