@@ -39,7 +39,7 @@ Para executar o projeto no Eclipse pela primeira vez, é preciso:
 - Aplicar o arquivo <pasta do projeto>/db/datapack.sql na sua instância do mysql (este SQL irá criar o schema 'valburguer' e incluirá algumas linhas para teste)
 - Criar um usuário para acessar o schema recém-criado (o usuário e a senha são configuráveis atavés do arquivod db.properties que existe no projeto; note que é lá também que a porta de acesso ao MySQL pode ser definida, caso não seja a 3306 padrão)
 
-Agora, é só solicitar ao Eclipse que rode o projeto no servidor criado (botão direito no projeto > Run As > Run on Server).
+Agora, é só solicitar ao Eclipse que rode o projeto no servidor criado (botão direito no projeto > Run As > Run on Server) e acessar o site pela url localhost:8080/valburguer/ (altere a porta caso a configuração do seu servidor esteja diferente).
 
 ## Conclusão
 
