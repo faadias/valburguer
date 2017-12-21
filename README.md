@@ -26,8 +26,6 @@ Este app foi desenvolvido com o Eclipse for JAVA EE Developers Oxygen
 
 ## Configuração
 
-Para rodar o projeto compilado, basta jogar o arquivo <pasta do projeto>/target/valburguer.war na pasta webapps do diretório do Apache Tomcat 8.5 e iniciar o servidor. O tomcar se encarrega de subir o app na URL http://localhost:8080/valburguer/ (atenção para a barra ao final)
-
 Para importar o projeto no Eclipse, primeiramente clone a URL e depois, no Eclipse:
 - Vá até o menu File > Import...
 - Na janela que irá abrir, selecione a opção Existing Maven Projects
@@ -42,6 +40,8 @@ Para executar o projeto no Eclipse pela primeira vez, é preciso:
 - Criar um usuário para acessar o schema recém-criado (o usuário e a senha são configuráveis atavés do arquivod db.properties que existe no projeto; note que é lá também que a porta de acesso ao MySQL pode ser definida, caso não seja a 3306 padrão)
 
 Agora, é só solicitar ao Eclipse que rode o projeto no servidor criado (botão direito no projeto > Run As > Run on Server) e acessar o site pela url localhost:8080/valburguer/ (altere a porta caso a configuração do seu servidor esteja diferente).
+
+No caso, também é possível rodar o projeto já compilado: basta ter o banco de dados criado e com acesso para o usuário/senha definidos no db.properties, daí jogar o arquivo <pasta do projeto>/target/valburguer.war na pasta webapps do diretório do Apache Tomcat 8.5 e iniciar o servidor. O tomcat se encarrega de subir o app na URL http://localhost:8080/valburguer/ (atenção para a barra ao final)
 
 ## Imagens
 
