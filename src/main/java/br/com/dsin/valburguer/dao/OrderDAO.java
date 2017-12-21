@@ -57,7 +57,7 @@ public class OrderDAO extends BaseDAO {
 				"	op.product_id = p.id and " +
 				"	o.user_id = ? " +
 				"ORDER BY " + 
-				"	o.order_number, " + 
+				"	o.order_number desc, " + 
 				"	p.name ";
 		
 		List<OrderBean> orders = new ArrayList<>();

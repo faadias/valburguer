@@ -263,6 +263,7 @@ textarea {
 #delivery-address {
 	width: 100%;
 	font-size: .8em;
+	margin-bottom: 1em;
 }
 
 #payment-methods > * {

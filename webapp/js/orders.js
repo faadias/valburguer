@@ -43,7 +43,7 @@ $(document).ready(function() {
 			if (isRestError(response)) return;
 			
 			if (response.data != null) {
-				$("delivery-address").val(response.data.trim());
+				$("#delivery-address").val(response.data.trim());
 			}
 		});
 	
@@ -165,7 +165,6 @@ function handleProducts(response) {
 }
 
 function handleOrders(orders) {
-	console.log(orders);
 	$("#orders-list").html("");
 	
 	orders.forEach(order => {
@@ -173,7 +172,7 @@ function handleOrders(orders) {
 		let $orderItemHeader = $("<div>").addClass("order-item-header");
 		$orderItemHeader.append($("<label>").addClass("order-number").html(order.order_number));
 		$orderItemHeader.append($("<label>").addClass("order-status").html(order.status));
-		$orderItemHeader.append($("<label>").addClass("order-date").html(dateFormatter.format(order.created_date)));
+		$orderItemHeader.append($("<label>").addClass("order-date").html(dateFormatter.format(new Date(order.date_created))));
 		
 		$orderItem.append($orderItemHeader);
 		
@@ -356,7 +355,7 @@ function placeOrder() {
 					
 					$("#msg").html(successMsg);
 					handleOrders(response.data);
-					$("nav > input").val("order-history").change();
+					$("#nav-order-history").prop("checked", true).change();
 					
 					$("#overlay").hide();
 				});
