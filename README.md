@@ -1,19 +1,21 @@
-# Valburguer
+Valburguer
+==========
+
 Finalmente um app para pedir o melhor hambúrguer da cidade!
 
-Aviso Legal
-===========
+## Aviso Legal
 
 Este app é o resultado unicamente de um processo seletivo aplicado pela empresa DSIN, não tendo qualquer relação com marcas ou outros aplicativos reais.
 
-Sobre
-=====
+## Sobre
 
 O Valburguer é um controlador de pedidos para a hamburgueria do Sr. Valbernielson (personagem e local fictícios). Inicialmente pensando para permitir que pessoas façam e alterem pedidos, algumas tarefas mais avançadas (como administração de pedidos pela lanchonete) não puderam ser completadas a tempo.
 
 O diagrama do modelo de dados utilizado para o aplicativo encontra-se em <pasta do projeto>/db/valburguer.mwb e pode ser aberto utilizando-se a ferramenta [MySQL Workbench](https://dev.mysql.com/downloads/workbench/).
 
-No mais, cabe ressaltar que o app foi desenvolvido tendo em mente um design responsivo, podendo ser utilizado tanto em computadores quanto em dispositivos móveis.
+Creio que cabe ressaltar que o app foi desenvolvido tendo em mente um design responsivo, podendo ser utilizado tanto em computadores quanto em dispositivos móveis.
+
+No mais, outro ponto positivo é o fato de o servidor ter sido desenvolvido com arquitetura REST. Desta forma, chamadas externas ao app podem ser feitas por outros aplicativos e sites, como: listagem do menu, exibição de status de pedido etc. Além disso, a arquitetura proporciona a versatilidade de se poder trocar a camada de view por outra, sem que seja necessário trocar o servidor (desde que seja mantido o padrão de troca de mensagens no formato JSON, claro).
 
 #### Requisitos:
 - [Java JDK 8](http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk8-downloads-2133151.html)
@@ -22,8 +24,7 @@ No mais, cabe ressaltar que o app foi desenvolvido tendo em mente um design resp
 
 Este app foi desenvolvido com o Eclipse for JAVA EE Developers Oxygen
 
-Configuração
-============
+## Configuração
 
 Para importar o projeto no Eclipse, primeiramente clone a URL e depois, no Eclipse:
 - Vá até o menu File > Import...
@@ -40,8 +41,7 @@ Para executar o projeto no Eclipse pela primeira vez, é preciso:
 
 Agora, é só solicitar ao Eclipse que rode o projeto no servidor criado (botão direito no projeto > Run As > Run on Server).
 
-Conclusão
-=========
+## Conclusão
 
 Infelizmente não pude fazer tudo que queria neste app, pois acabei demorando mais do que imaginava nas características responsivas. Dado o atraso, o acabamento das telas ficou um pouco pobre em termos de design, embora não seja muito complicado, com tempo hábil, fazer alguns ajustes no CSS. Reconheço que avaliei mal a complexidade do projeto e que, numa próxima vez, devo considerar a possibilidade de utilizar um framework para poupar trabalho em alguns casos.
 
