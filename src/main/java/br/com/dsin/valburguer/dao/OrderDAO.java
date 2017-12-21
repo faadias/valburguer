@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import br.com.dsin.valburguer.beans.CategoryBean;
 import br.com.dsin.valburguer.beans.OrderBean;
@@ -37,9 +38,16 @@ public class OrderDAO extends BaseDAO {
 		return runner.query(sql, rsh);
 	}
 	
+	public String checkOrderIsUpdatable(String orderId)  throws SQLException {
+		String sql = "select status from user_order where id = ?";
+		ScalarHandler<String> rsh = new ScalarHandler<>();
+		return runner.query(sql, rsh, orderId);
+	}
+	
 	public List<OrderBean> getOrders(String userId) throws SQLException {
 		String sql = "SELECT " + 
-				"	o.id, " +
+				"	o.id as orderId, " +
+				"	p.id as productId, " + 
 				"	p.name, " + 
 				"	op.quantity, " + 
 				"	o.total_price, " + 
@@ -57,7 +65,7 @@ public class OrderDAO extends BaseDAO {
 				"	op.product_id = p.id and " +
 				"	o.user_id = ? " +
 				"ORDER BY " + 
-				"	o.order_number, " + 
+				"	o.order_number desc, " + 
 				"	p.name ";
 		
 		List<OrderBean> orders = new ArrayList<>();
@@ -69,7 +77,8 @@ public class OrderDAO extends BaseDAO {
 		Integer lastOrderNumber = -1;
 		OrderBean orderBean = null;
 		for(Map<String, Object> row : rows) {
-			String orderId = (String) row.get("id");
+			String orderId = (String) row.get("orderId");
+			Integer productId = (Integer) row.get("productId");
 			String producName = (String) row.get("name");
 			Integer quantity = (Integer) row.get("quantity");
 			Double totalPrice = ((BigDecimal) row.get("total_price")).doubleValue();
@@ -94,6 +103,7 @@ public class OrderDAO extends BaseDAO {
 			}
 			
 			ProductBean productBean = new ProductBean();
+			productBean.setId(productId);
 			productBean.setName(producName);
 			productBean.setQuantity(quantity);
 			orderBean.getProducts().add(productBean);
@@ -110,5 +120,14 @@ public class OrderDAO extends BaseDAO {
 		}
 		
 		runner.update("update user set address = ? where id = ? and (address is null or address = '')", address, userId);
+	}
+	
+	public void updateOrder (String userId, String orderId, List<ProductBean> products, Double totalPrice, Date date, String address, String payment) throws SQLException {
+		runner.update("update user_order set date_updated = ?, total_price = ?, address = ?, payment = ? where id = ?", date, totalPrice, address, payment, orderId);
+		runner.update("delete from order_product where order_id = ?", orderId);
+		
+		for (ProductBean product : products) {
+			runner.update("insert into order_product (order_id, product_id, quantity) values (?,?,?)", orderId, product.getId(), product.getQuantity());
+		}
 	}
 }

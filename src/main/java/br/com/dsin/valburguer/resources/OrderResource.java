@@ -126,13 +126,18 @@ public class OrderResource {
 			
 			if (order.getId() == null || "".equals(order.getId().trim())) {
 				orderDAO.placeOrder(userId, UUID.randomUUID().toString(), order.getProducts(), totalPrice, new Date(), order.getAddress(), order.getPayment());
+				response.setMsg("Pedido realizado com sucesso!");
 			}
 			else {
-				//TODO
-				//verificar se pedido ainda está com status Realizado para pode ser modificado
-				//atualizar pedido
+				String status = orderDAO.checkOrderIsUpdatable(order.getId());
+				if (!"Recebido".equals(status)) {
+					response.setCode(resid+3);
+					response.setMsg("Não foi possível alterar o pedido, pois o mesmo está com status '"+status+"'!");
+					return response;
+				}
+				orderDAO.updateOrder(userId, order.getId(), order.getProducts(), totalPrice, new Date(), order.getAddress(), order.getPayment());
+				response.setMsg("Pedido atualizado com sucesso!");
 			}
-			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

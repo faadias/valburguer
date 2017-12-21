@@ -43,7 +43,7 @@ $(document).ready(function() {
 			if (isRestError(response)) return;
 			
 			if (response.data != null) {
-				$("delivery-address").val(response.data.trim());
+				$("#delivery-address").val(response.data.trim());
 			}
 		});
 	
@@ -68,7 +68,7 @@ function bindActions() {
 	$("#product-detail-modal").on("click", ".modal-action", addToCart);
 	$("#product-detail-modal").on("change", ".quantity", updateOrderDetail);
 	
-	$("#action-cart").on("click", checkout);
+	$("#action-cart").on("click", () => checkout());
 	
 	$("#order-checkout-modal").on("click", ".action-quantity", changeQuantity);
 	
@@ -165,7 +165,6 @@ function handleProducts(response) {
 }
 
 function handleOrders(orders) {
-	console.log(orders);
 	$("#orders-list").html("");
 	
 	orders.forEach(order => {
@@ -173,7 +172,7 @@ function handleOrders(orders) {
 		let $orderItemHeader = $("<div>").addClass("order-item-header");
 		$orderItemHeader.append($("<label>").addClass("order-number").html(order.order_number));
 		$orderItemHeader.append($("<label>").addClass("order-status").html(order.status));
-		$orderItemHeader.append($("<label>").addClass("order-date").html(dateFormatter.format(order.created_date)));
+		$orderItemHeader.append($("<label>").addClass("order-date").html(dateFormatter.format(new Date(order.date_created))));
 		
 		$orderItem.append($orderItemHeader);
 		
@@ -190,8 +189,34 @@ function handleOrders(orders) {
 		$orderItem.append($productsList);
 		$orderItem.append($("<label>").addClass("order-total").html(currencyFormatter.format(order.total_price)));
 		
+		$orderItem.data(order);
+		
+		if (order.status === "Recebido") {
+			$orderItem.addClass("updatable").on("click", changeOrder);
+		}
+		
 		$("#orders-list").append($orderItem);
 	});
+}
+
+function changeOrder(e) {
+	let order = $(e.currentTarget).data();
+	
+	localStorage.clear();
+	localStorage.setItem("orderId", order.id);
+	
+	order.products.forEach(product => {
+		let quantity = product.quantity;
+		let price = product.price
+		localStorage.setItem(product.id, JSON.stringify({quantity, price}));
+	});
+	
+	updateCart(order.total_price);
+	
+	$("#delivery-address").val(order.address.trim());
+	$(`#payment-${order.payment}`).prop("checked", true);
+	
+	checkout(order.id);
 }
 
 function initScreen() {
@@ -254,7 +279,7 @@ function updateCart(increment) {
 	}
 }
 
-function checkout() {
+function checkout(orderId) {
 	if (cartTotal === 0) return;
 	
 	$("#msg").html("");
@@ -277,7 +302,8 @@ function checkout() {
 			$item.append($totalPrice);
 			$item.append(buildQuantityController(orderData.quantity, function(e) {
 				let quantity = parseInt(e.target.value);
-				if (quantity <= 0 && confirm("Deseja remover este produto do carrinho?")) {
+				
+				if (quantity <= 0 && confirm("Deseja remover este produto?")) {
 					$item.remove();
 					
 					localStorage.removeItem(id);
@@ -289,12 +315,21 @@ function checkout() {
 					}
 				}
 				
+				let storedData = JSON.parse(localStorage.getItem(id));
+				
 				e.target.value = quantity = Math.min(Math.max(MIN_QUANTITY,quantity), MAX_QUANTITY);
+				updateCart((quantity-storedData.quantity)*product.price);
 				$totalPrice.html(currencyFormatter.format(quantity*product.price));
+				
+				storedData.quantity = quantity;
+				localStorage.setItem(id, JSON.stringify(storedData));
 			}));
 			
 			$("#checkout-list").append($item);
 		});
+	
+	$("#order-checkout-modal .action-place-order").html(orderId == null ? "Pedir!" : "Atualizar");
+	$("#order-checkout-modal .action-clear-cart").html(orderId == null ? "Limpar" : "Cancelar");
 	
 	$("#order-checkout-modal").show();
 }
@@ -321,7 +356,7 @@ function placeOrder() {
 		return;
 	}
 	
-	let payment = $("#payment-methods input:radio").val().trim();
+	let payment = $("#payment-methods input[type=radio]:checked").val().trim();
 	if (payment === "") {
 		alert("Informe a forma de pagamento.");
 		return;
@@ -334,7 +369,9 @@ function placeOrder() {
 			return { id : parseInt(id), quantity : json.quantity };
 		});
 	
-	let order = {products, payment, address};
+	let id = localStorage.getItem("orderId");
+	
+	let order = {products, payment, address, id};
 	
 	closeModal();
 	$("#overlay").show();
@@ -345,7 +382,21 @@ function placeOrder() {
 			if (isRestError(response)) return;
 			
 			emptyCart();
-			$("#msg").html("Pedido realizado com sucesso!");
+			
+			
+			$("#overlay").show();
+			let successMsg = response.msg;
+			
+			rest.post("order/list_orders")
+				.then(response => {
+					if (isRestError(response)) return;
+					
+					$("#msg").html(successMsg);
+					handleOrders(response.data);
+					$("#nav-order-history").prop("checked", true).change();
+					
+					$("#overlay").hide();
+				});
 		});
 }
 

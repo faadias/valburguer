@@ -64,15 +64,15 @@
 		<header><div class="symbol-action action-back"></div></header>
 		<section id="order-checkout">
 			<section id="checkout-list"></section>
-		</section>
-		<section>
-			<textarea id="delivery-address" placeholder="Endereço de entrega" maxlength="200" rows="2" cols="100"></textarea>
-			<div id="payment-methods">
-				<input type="radio" value="CC" name="payment-method" />Cartão de crédito<br>
-				<input type="radio" value="CD" name="payment-method" />Cartão de débito<br>
-				<input type="radio" value="DC" name="payment-method" />Dinheiro ou cheque<br>
-				<input type="radio" value="VO" name="payment-method" />Voucher<br>
-				<input type="radio" value="VR" name="payment-method" />Vale refeição
+			<div id="checkout-extra">
+				<textarea id="delivery-address" placeholder="Endereço de entrega" maxlength="200" rows="2" cols="100"></textarea>
+				<div id="payment-methods">
+					<input type="radio" id="payment-CC" value="CC" name="payment-method" />Cartão de crédito<br>
+					<input type="radio" id="payment-CD" value="CD" name="payment-method" />Cartão de débito<br>
+					<input type="radio" id="payment-DC" value="DC" name="payment-method" />Dinheiro ou cheque<br>
+					<input type="radio" id="payment-VO" value="VO" name="payment-method" />Voucher<br>
+					<input type="radio" id="payment-VR" value="VR" name="payment-method" />Vale refeição
+				</div>
 			</div>
 		</section>
 		<div class="cart-total-price">R$0,00</div>

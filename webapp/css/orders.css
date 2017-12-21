@@ -194,6 +194,10 @@ header > .symbol-action {
 	margin-top: .3em;
 }
 
+#checkout-extra {
+	flex-grow: 2;
+}
+
 .checkout-item .product-total-price {
 	font-size: .8em;
 	flex-grow: 1;
@@ -263,6 +267,7 @@ textarea {
 #delivery-address {
 	width: 100%;
 	font-size: .8em;
+	margin-bottom: 1em;
 }
 
 #payment-methods > * {
@@ -327,6 +332,17 @@ textarea {
 	justify-content: stretch;
 	align-items: stretch;
 	padding: 10px;
+}
+
+.orders-list-item.updatable,
+.orders-list-item.updatable * {
+	cursor: pointer;	
+}
+.orders-list-item.updatable:hover {
+	background-color: lightyellow;
+}
+.orders-list-item.updatable:active {
+	background-color: antiquewhite;
 }
 
 .orders-list-item .order-item-header {
