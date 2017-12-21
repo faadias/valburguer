@@ -356,8 +356,8 @@ function placeOrder() {
 		return;
 	}
 	
-	let payment = $("#payment-methods input[type=radio]:checked").val().trim();
-	if (payment === "") {
+	let payment = $("#payment-methods input[type=radio]:checked").val();
+	if (payment == null) {
 		alert("Informe a forma de pagamento.");
 		return;
 	}
