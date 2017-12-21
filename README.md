@@ -41,6 +41,10 @@ Para executar o projeto no Eclipse pela primeira vez, é preciso:
 
 Agora, é só solicitar ao Eclipse que rode o projeto no servidor criado (botão direito no projeto > Run As > Run on Server) e acessar o site pela url localhost:8080/valburguer/ (altere a porta caso a configuração do seu servidor esteja diferente).
 
+## Imagens
+
+![Tela inicial](https://www.dropbox.com/s/nepc1srpaw9fwve/tela_inicial.jpg?raw=1&v=2) ![Tela de carregamento](https://www.dropbox.com/s/sklz7hwys7fi7po/carregando.jpg?raw=1&v=2) ![Menu](https://www.dropbox.com/s/rxwejwhouhiqlrv/menu.jpg?raw=1&v=2) ![Seleção de item](https://www.dropbox.com/s/g1digxenjf66ksa/selecao.jpg?raw=1&v=2) ![Checkout](https://www.dropbox.com/s/4jo64vuepgfvltj/checkout.jpg?raw=1&v=2) ![Histórico de pedidos](https://www.dropbox.com/s/1yyg4xlcvdwxcs2/historico.jpg?raw=1&v=2)
+
 ## Conclusão
 
 Infelizmente não pude fazer tudo que queria neste app, pois acabei demorando mais do que imaginava nas características responsivas. Dado o atraso, o acabamento das telas ficou um pouco pobre em termos de design, embora não seja muito complicado, com tempo hábil, fazer alguns ajustes no CSS. Reconheço que avaliei mal a complexidade do projeto e que, numa próxima vez, devo considerar a possibilidade de utilizar um framework para poupar trabalho em alguns casos.
