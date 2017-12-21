@@ -63,6 +63,25 @@ public class OrderResource {
 	}
 	
 	@POST
+	@Path("/list_orders")
+	@Produces("application/json")
+	public ResourceResponse listOrders() {
+		ResourceResponse response = new ResourceResponse();
+		
+		String userId = (String) request.getSession().getAttribute(BaseDAO.USER_SESSION_ATTR_KEY);
+		
+		try {
+			response.setData(orderDAO.getOrders(userId));
+		} catch (SQLException e) {
+			e.printStackTrace();
+			response.setCode(resid);
+			response.setMsg(BaseDAO.DEFAULT_DB_ERROR_MSG);
+		}
+		
+		return response;
+	}
+	
+	@POST
 	@Path("/place")
 	@Produces("application/json")
 	@Consumes("application/json")

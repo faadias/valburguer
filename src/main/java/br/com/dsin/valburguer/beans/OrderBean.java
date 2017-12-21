@@ -8,6 +8,7 @@ public class OrderBean {
 	private String address;
 	private Double total_price;
 	private Date date_created;
+	private Integer order_number;
 	private String status;
 	private String payment;
 	private List<ProductBean> products;
@@ -52,5 +53,11 @@ public class OrderBean {
 	}
 	public void setPayment(String payment) {
 		this.payment = payment;
+	}
+	public Integer getOrder_number() {
+		return order_number;
+	}
+	public void setOrder_number(Integer order_number) {
+		this.order_number = order_number;
 	}
 }
