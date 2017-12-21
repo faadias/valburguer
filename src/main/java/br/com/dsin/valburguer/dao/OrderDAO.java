@@ -1,5 +1,6 @@
 package br.com.dsin.valburguer.dao;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,7 +72,7 @@ public class OrderDAO extends BaseDAO {
 			String orderId = (String) row.get("id");
 			String producName = (String) row.get("name");
 			Integer quantity = (Integer) row.get("quantity");
-			Double totalPrice = (Double) row.get("total_price");
+			Double totalPrice = ((BigDecimal) row.get("total_price")).doubleValue();
 			Date dateCreated = (Date) row.get("date_created");
 			Integer orderNumber = (Integer) row.get("order_number");
 			String status = (String) row.get("status");
@@ -94,6 +95,7 @@ public class OrderDAO extends BaseDAO {
 			ProductBean productBean = new ProductBean();
 			productBean.setName(producName);
 			productBean.setQuantity(quantity);
+			orderBean.getProducts().add(productBean);
 		}
 		
 		return orders;
