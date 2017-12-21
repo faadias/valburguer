@@ -140,6 +140,7 @@ public class OrderResource {
 			response.setMsg(BaseDAO.DEFAULT_DB_ERROR_MSG);
 		}
 		
+		response.setMsg("Pedido realizado com sucesso!");
 		return response;
 	}
 }

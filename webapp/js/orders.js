@@ -345,7 +345,21 @@ function placeOrder() {
 			if (isRestError(response)) return;
 			
 			emptyCart();
-			$("#msg").html("Pedido realizado com sucesso!");
+			
+			
+			$("#overlay").show();
+			let successMsg = response.msg;
+			
+			rest.post("order/list_orders")
+				.then(response => {
+					if (isRestError(response)) return;
+					
+					$("#msg").html(successMsg);
+					handleOrders(response.data);
+					$("nav > input").val("order-history").change();
+					
+					$("#overlay").hide();
+				});
 		});
 }
 
